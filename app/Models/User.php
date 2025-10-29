@@ -21,7 +21,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'birth_date',
     ];
 
     /**
@@ -45,9 +44,5 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function books() {
-        return $this->belongsToMany(Book::class)->withPivot('rating','review');
     }
 }

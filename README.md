@@ -59,16 +59,3 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-## Rebuild frontend assets (quick)
-
-If you update the CSS or JS you should rebuild the Vite assets. On Windows PowerShell from the project root run:
-
-```powershell
-npm install
-npm run dev
-# or for a production build
-npm run build
-```
-
-The new layout uses `resources/css/app.css` and `resources/js/app.js` (Vite). If you run into caching issues, clear the browser cache or run `php artisan view:clear`.
