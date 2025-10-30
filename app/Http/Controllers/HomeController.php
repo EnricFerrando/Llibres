@@ -10,10 +10,16 @@ class HomeController extends Controller
 {
     public function bifurcate()
     {
-        if (Auth::check() && Auth::user()->email === 'admin@admin.com') {
-            // Aquesta ruta només la podrà veure l'admin perquè el middleware ho controla
+        if (!Auth::check()) {
+            // If user is not authenticated, show welcome page
+            return view('welcome');
+        }
+        
+        if (Auth::user()->email === 'admin@admin.com') {
+            // Redirect admin to admin panel
             return redirect()->intended(route('admin.index'));
         } else {
+            // Redirect authenticated users to their index
             return redirect()->intended(route('index.guests'));
         }
     }

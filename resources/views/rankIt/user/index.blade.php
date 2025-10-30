@@ -25,16 +25,16 @@
 
     <div class="row">
         @php
-            $userAge = \Carbon\Carbon::parse(Auth::user()->birth_date)->age;
+            $userAge = Auth::user()->birth_date ? \Carbon\Carbon::parse(Auth::user()->birth_date)->age : null;
         @endphp
         @forelse($books as $book)
-            @if($book->recomended_age <= $userAge)
+            @if($userAge === null || $book->recomended_age <= $userAge)
                 <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow bg-dark text-white">
+                    <div class="card h-100 shadow">
                         @if($book->image)
                             <img src="{{ asset('storage/'.$book->image) }}" class="card-img-top" alt="Portada de {{ $book->title }}" style="height: 300px; object-fit: cover;">
                         @else
-                            <img src="https://via.placeholder.com/300x400?text=Sense+imatge" class="card-img-top" alt="Sense imatge" style="height: 300px; object-fit: cover;">
+                            <img src="{{ asset('images/no-cover.jpg') }}" class="card-img-top" alt="Sense imatge" style="height: 300px; object-fit: cover;">
                         @endif
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ $book->title }}</h5>
@@ -53,7 +53,7 @@
                                         @endfor
                                         <small>({{ number_format($avg, 1) }})</small>
                                     @else
-                                        <span class="text-secondary">Sense valoracions</span>
+                                        <span class="text-muted">Sense valoracions</span>
                                     @endif
                                 </span>
                             </div>
