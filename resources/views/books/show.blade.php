@@ -22,7 +22,7 @@
             @endif
 
             <div class="mt-4">
-                <h3 class="text-lg font-semibold">{{ optional($book)->title ?? '-' }}</h3>
+                    <h3 class="text-lg font-semibold">{{ optional($book)->title ?? '-' }}</h3>
                 <p class="text-sm muted">{{ $book->author }}</p>
             </div>
         </div>
@@ -33,7 +33,7 @@
             <div class="flex items-start justify-between">
                 <div>
                     <h1 class="text-2xl font-bold mb-1">{{ optional($book)->title ?? '-' }}</h1>
-                    <p class="text-sm muted">Categoria: {{ optional($book->category)->name ?? '-' }} · Edat mínima: {{ $book->recomended_age ?? '-' }}</p>
+                        <p class="text-sm muted">Categoria: {{ optional($book->category)->name ?? '-' }} · Edat mínima: {{ optional($book)->recomended_age ?? '-' }}</p>
                 </div>
                 <div class="text-right">
                     @php $avg = $book->users()->avg('rating'); @endphp

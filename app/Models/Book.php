@@ -11,14 +11,14 @@ class Book extends Model
     use HasFactory;
 
     protected $table = 'books';
-    protected $fillable = ['title', 'author', 'sumary', 'published_at', 'price', 'image','recomended_age','categorie_id'];
+    protected $fillable = ['title', 'author', 'sumary', 'published_at', 'price', 'image', 'recomended_age', 'categorie_id'];
 
     public function users() {
-        return $this->belongsToMany(User::class)->withPivot('rating','review');
+        return $this->belongsToMany(User::class)->withPivot('rating', 'review');
     }
 
-    public function categorie() {
-        return $this->belongsTo(Categorie::class);
+    public function category() {
+        return $this->belongsTo(Categorie::class, 'categorie_id');
     }
 }
 

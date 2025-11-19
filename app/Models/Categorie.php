@@ -10,9 +10,10 @@ class Categorie extends Model
 {
     use HasFactory;
 
-    protected $table = 'Categories';
-    protected $fillable = ['name'];
+    protected $table = 'categories'; // Changed to lowercase to match migration
+    protected $fillable = ['name', 'description'];
+
     public function books() {
-        return $this->hasMany(Book::class);
+        return $this->hasMany(Book::class, 'categorie_id');
     }
 }

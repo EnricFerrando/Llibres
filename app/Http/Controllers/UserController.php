@@ -20,6 +20,6 @@ class UserController extends Controller
 
         $books = $booksQuery->paginate(6);
 
-        return view('rankIt.user.index', compact('books', 'categories', 'categoryId'));
+        return view('users.index', compact('books', 'categories', 'categoryId'));
     }
 }

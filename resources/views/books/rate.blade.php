@@ -1,4 +1,3 @@
-{{-- filepath: c:\xampp\htdocs\DWES\Laravel\puntuacioLlibre\rankIt\resources\views\rate_book.blade.php --}}
 @extends('layouts.master')
 
 @section('title', 'Valora el llibre')
@@ -6,7 +5,7 @@
 @section('content')
 <div class="container mt-5">
     <h2>Valora: {{ optional($book)->title ?? '-' }}</h2>
-    <form method="POST" action="{{ route('books.rate.store', $book->id) }}">
+    <form method="POST" action="{{ route('books.storeRate', $book->id) }}">
         @csrf
         <div class="mb-3">
             <label for="rating" class="form-label">Puntuació (1-5)</label>

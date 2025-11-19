@@ -19,8 +19,8 @@
             @foreach($users as $user)
                 <tr>
                     <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
+                    <td>{{ optional($user)->name ?? '-' }}</td>
+                    <td>{{ optional($user)->email ?? '-' }}</td>
                     <td>
                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">Editar</a>
                         <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">

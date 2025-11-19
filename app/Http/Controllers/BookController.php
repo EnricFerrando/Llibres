@@ -19,7 +19,7 @@ class BookController extends Controller
     public function create()
     {
         $categories = Categorie::all();
-        return view('create_book', compact('categories'));
+        return view('books.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -48,12 +48,12 @@ class BookController extends Controller
 
     public function show(Book $book)
     {
-        return view('show', compact('book'));
+        return view('books.show', compact('book'));
     }
 
     public function rate(Book $book)
     {
-        return view('rate_book', compact('book'));
+        return view('books.rate', compact('book'));
     }
 
     public function storeRate(Request $request, Book $book)

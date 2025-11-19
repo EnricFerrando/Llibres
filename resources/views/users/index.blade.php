@@ -1,4 +1,3 @@
-{{-- filepath: c:\xampp\htdocs\DWES\Laravel\puntuacioLlibre\rankIt\resources\views\rankIt\index.blade.php --}}
 @extends('layouts.master')
 
 @section('title', "Llibres recomanats per a tu")
