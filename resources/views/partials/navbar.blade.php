@@ -1,6 +1,6 @@
 {{-- filepath: c:\xampp\htdocs\DWES\Laravel\puntuacioLlibre\rankIt\resources\views\partials\navbar.blade.php --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<nav class="navbar navbar-expand-lg" style="background-color: #32a3b5; margin-bottom: 50px;">
+<nav class="navbar navbar-expand-lg" style="background-color: #32b555; margin-bottom: 50px;">
     <div class="container">
         <!-- Logo de l'app -->
         <a class="navbar-brand d-flex align-items-center" href="/">
