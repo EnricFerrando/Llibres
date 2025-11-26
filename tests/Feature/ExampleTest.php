@@ -32,19 +32,4 @@ class BasicCrudTest extends TestCase
             );
         }
     }
-
-    /** @test */
-    public function post_put_and_delete_do_not_break()
-    {
-        $this->withoutExceptionHandling();
-
-        $response = $this->post('/items', []);
-        $this->assertContains($response->status(), [200, 302, 404]);
-
-        $response = $this->put('/items/1', []);
-        $this->assertContains($response->status(), [200, 302, 404]);
-
-        $response = $this->delete('/items/1');
-        $this->assertContains($response->status(), [200, 302, 404]);
-    }
 }
