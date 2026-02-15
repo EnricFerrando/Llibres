@@ -14,6 +14,16 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Usuari no root
-RUN addgroup -g 1000 laravel && adduser -G laravel -g laravel -D -u 1000 laravel
+# Copia codi i instala dependencies
+COPY . /var/www
+RUN composer install --no-interaction --optimize-autoloader --no-dev
+
+# Instala assets
+RUN npm install && npm run build
+
+# Usuari no root (al final)
+RUN chown -R 1000:1000 /var/www && addgroup -g 1000 laravel && adduser -G laravel -g laravel -D -u 1000 laravel
 USER laravel
+
+EXPOSE 9000
+CMD ["php-fpm"]
