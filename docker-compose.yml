@@ -3,35 +3,81 @@ services:
     build:
       context: .
       dockerfile: Docker/php/Dockerfile
-    container_name: laravel_app
-    working_dir: /var/www/html
+    image: rankit-app
+    container_name: rankit-app
+    restart: unless-stopped
+    working_dir: /var/www
     volumes:
-      - ./:/var/www/html
+      - ./:/var/www
     environment:
-      APP_ENV: local
-      APP_DEBUG: "true"
-      APP_URL: http://localhost
-    #depends_on:
-    #  - web
+      APP_NAME: ${APP_NAME:-rankit}
+      APP_ENV: ${APP_ENV:-production}
+      APP_KEY: ${APP_KEY}
+      APP_DEBUG: ${APP_DEBUG:-false}
+      APP_URL: ${APP_URL:-http://rankit.listapelis.com}
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE:-rankit}
+      DB_USERNAME: ${DB_USERNAME:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
+    depends_on:
+      - db
+    networks:
+      - rankit-network
 
   web:
     image: nginx:alpine
-    container_name: laravel_web
-    ports:
-      - "80:80"
+    container_name: rankit-nginx
+    restart: unless-stopped
     volumes:
-      - ./:/var/www/html:ro
-      - ./Docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-
-  node:
-    image: node:20-alpine
-    container_name: laravel_node
-    working_dir: /var/www/html
-    #No fa falta, ja farem builds puntuals, sinó genera problemes en producció
-    #command: sh -c "npm ci && npm run dev -- --host"
-    ports:
-      - "5173:5173" # Vite HMR
-    volumes:
-      - ./:/var/www/html
+      - ./:/var/www
+      - ./Docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - app
+    networks:
+      - rankit-network
+      - web-proxy
+
+  db:
+    image: mariadb:10.6
+    container_name: rankit-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_DATABASE: ${DB_DATABASE:-rankit}
+    volumes:
+      - rankit-db-data:/var/lib/mysql
+    networks:
+      - rankit-network
+
+  migrate:
+    image: rankit-app
+    container_name: rankit-migrate
+    restart: "no"
+    depends_on:
+      - app
+      - db
+    networks:
+      - rankit-network
+    entrypoint: ["sh","-c","for i in 1 2 3 4 5; do php artisan migrate --force && exit 0 || sleep 5; done; exit 1"]
+
+  build-assets:
+    image: rankit-app
+    container_name: rankit-build-assets
+    restart: "no"
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - app
+    entrypoint: ["sh","-c","npm install && npm run build"]
+
+networks:
+  rankit-network:
+    driver: bridge
+  web-proxy:
+    external: true
+
+volumes:
+  rankit-db-data:
